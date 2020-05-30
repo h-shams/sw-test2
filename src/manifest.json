@@ -1,0 +1,19 @@
+{
+   "name": "My Progressive Web App",
+   "short_name": "MyPWA",
+   "description": "My awesome Progressive Web App!",
+ 	 "theme_color": "red",
+   "background_color": "#ffffff",
+   "crossorigin": "use-credentials",
+   "inject": true,
+   "fingerprints": false,
+   "includeDirectory": true,
+   "start_url":".",
+   "icons": [
+     {
+       "src": "src/icon.png",
+       "sizes": [96, 128, 192, 256, 384, 512],
+       "destination": "icons"
+     }
+   ]
+ }
