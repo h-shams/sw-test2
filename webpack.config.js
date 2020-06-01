@@ -13,6 +13,7 @@ module.exports = {
 
   entry: {
     main: './src/main.js',
+		// data: './src/data.json'
 	},
 
   output: {
@@ -36,7 +37,7 @@ module.exports = {
 		}),
 
 		new HtmlWebpackPlugin({
-			template: 'src/index.html'
+			template: 'src/index.html',
 		}),
 
 		new webpackPwaManifest(manifest),
@@ -64,11 +65,11 @@ module.exports = {
 				test: /\.css$/,
 				use: [
 					MiniCssExtractPlugin.loader,
+					{loader: 'css-loader',options: {sourceMap: true,importLoaders: 1}},
+					'postcss-loader',
 					{
-						loader: 'css-loader',
-            options: {
-              sourceMap: true,
-            },
+						loader: "group-css-media-queries-loader",
+						options: { sourceMap: true }
 					},
 				],
 			},

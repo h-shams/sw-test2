@@ -7,48 +7,48 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   console.log('SW: activated');
-  event.waitUntil(deleteOldCaches())
 })
 
 self.addEventListener('fetch', event => {
   if(event.request.url === 'http://localhost:3000/CMD/DELETE_OLD_CACHES'){
-    deleteOldCaches().then( () => {
+    console.log('SW: CMD / DELETE_OLD_CACHES');
+    deleteOldCaches().then( (res) => {
       event.respondWith(new Response(
-        JSON.stringify({data: 'all deleted'}),
+        JSON.stringify({deleted: res}),
         {status: 200}
       ))
     })
-  }
-
-
-  let url
-  if(event.request.url === 'http://localhost:3000/'){
-    url = 'http://localhost:3000/index.html'
   }else{
-    url = event.request.url
-  }
+
+    let url
+    if(event.request.url === 'http://localhost:3000/'){
+      console.log(' ');
+      url = 'http://localhost:3000/index.html'
+    }else{
+      url = event.request.url
+    }
 
 
-  event.respondWith(
-    caches.open('sw-test').then(cache => {
-      return cache.match(url).then( response => {
-        console.log(
-          'SW: GET ' + url.slice(22) , response ? '--- cache' : '--- fetched'
-        )
-        return response || fetch(url)
+    event.respondWith(
+      caches.open('sw-test').then(cache => {
+        return cache.match(url).then( response => {
+          console.log(
+            'SW: GET ' + url.slice(22) , response ? '--- cache' : '--- fetched'
+          )
+          return response || fetch(url)
+        })
       })
-    })
-  )
-
-
-  if(url === 'http://localhost:3000/index.html'){
-    event.waitUntil(
-      setTimeout(() => {
-        cacheNewFiles(true)
-      }, 2000)
     )
-  }
 
+
+    if(url === 'http://localhost:3000/index.html'){
+      event.waitUntil(
+        setTimeout(() => {
+          cacheNewFiles(true)
+        }, 2000)
+      )
+    }
+  }
 })
 
 function cacheNewFiles(cacheManifest = false){
@@ -86,23 +86,28 @@ function cacheNewFiles(cacheManifest = false){
 }
 
 function deleteOldCaches(){
-  return caches.open('sw-test').then( cache => {
-    return cache.keys().then( keys => {
-      return cache.match('assets.json').then( res => {
-        return res.json().then( manifest => {
-          return inCacheButManifest(manifest, keys).then( comp => {
-            return comp.forEach( oldCache => {
-              return cache.delete(oldCache).then( () => {
-                console.log('SW: deleted ' + oldCache.url.split(21));
+  return new Promise( (resolve, reject) => {
+    let a = []
+    caches.open('sw-test').then( cache => {
+      cache.keys().then( keys => {
+        cache.match('assets.json').then( res => {
+          res.json().then( manifest => {
+            manifest.push({url:'assets.json'})
+            inCacheButManifest(manifest, keys).then( comp => {
+              comp.forEach( oldCache => {
+                cache.delete(oldCache)
               })
+              a = comp
+              console.log('SW: folowing item Deleted ' + comp);
             })
           })
+        }).catch( err => {
+          console.log(err)
+          console.log('SW: there is no "assets.json" in cache;');
         })
-      }).catch( err => {
-        console.log(err)
-        console.log('SW: this is strange!');
       })
     })
+    resolve(a)
   })
 }
 
@@ -117,10 +122,10 @@ function inCacheButManifest(manifestList, cacheList){
    cacheList.forEach( cacheEntry => {
      let isFound = null
      manifestList.forEach( manifestEntry => {
-       if(cacheEntry.url.split(22) === manifestEntry.url){
+       if(cacheEntry.url.slice(22) === manifestEntry.url){
          isFound = true
        }
-     });
+     })
      if(isFound === null){
        arr.push(cacheEntry.url.split(22))
      }
@@ -128,6 +133,20 @@ function inCacheButManifest(manifestList, cacheList){
    resolve(arr)
  })
 }
+
+/*
+caches.open('sw-test').then( cache => {
+  cache.keys().then( keys => {
+    console.log(keys)
+    console.log(manifest)
+    inCacheButManifest(manifest, keys).then(res => {
+      console.log(res)
+    }).catch( err => {
+      console.log(err)
+    })
+  })
+})
+*/
 
 function inManifestButCache(manifestList, cacheList){
  return new Promise( (resolve, reject) => {

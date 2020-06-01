@@ -11,8 +11,44 @@
    "start_url":".",
    "icons": [
      {
-       "src": "src/icon.png",
-       "sizes": [96, 128, 192, 256, 384, 512],
+       "src": "icons/icon48.png",
+       "sizes": 48,
+       "destination": "icons",
+       "purpose": "maskable"
+     },
+     {
+       "src": "icons/icon96.png",
+       "sizes": 96,
+       "destination": "icons"
+     },
+     {
+       "src": "icons/icon144.png",
+       "sizes": 144,
+       "destination": "icons"
+     },
+     {
+       "src": "icons/icon192.png",
+       "sizes": 192,
+       "destination": "icons"
+     },
+     {
+       "src": "icons/icon240.png",
+       "sizes": 240,
+       "destination": "icons"
+     },
+     {
+       "src": "icons/icon336.png",
+       "sizes": 336,
+       "destination": "icons"
+     },
+     {
+       "src": "icons/icon432.png",
+       "sizes": 432,
+       "destination": "icons"
+     },
+     {
+       "src": "icons/icon528.png",
+       "sizes": 528,
        "destination": "icons"
      }
    ]
