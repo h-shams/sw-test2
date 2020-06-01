@@ -1,5 +1,7 @@
 import './main.css'
 
+let a = REPLACE
+
 console.log('hello');
 
 if(navigator.serviceWorker){

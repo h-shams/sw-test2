@@ -7,6 +7,8 @@ const {GenerateSW} = require('workbox-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpackPwaManifest = require('webpack-pwa-manifest');
 const manifest = require('./src/manifest.json');
+const webpack = require('webpack');
+
 
 module.exports = {
 	mode: 'development',
@@ -54,6 +56,10 @@ module.exports = {
         { from: './src/sw.js', to: './sw.js' },
       ],
     }),
+
+		new webpack.DefinePlugin({
+			REPLACE: '"CUSTOME TEXT"'
+		})
 
 	],
 
