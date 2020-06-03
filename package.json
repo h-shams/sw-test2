@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "start": "browser-sync start -s './dist'"
+    "server": "browser-sync start -s './dist'",
+    "start":"webpack-dev-server --env.dev"
   },
   "author": "Heydar Shams",
   "license": "ISC",

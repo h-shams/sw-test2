@@ -1,6 +1,6 @@
 import './main.css'
 
-let a = REPLACE
+const BASE_URL = env.baseUrl
 
 console.log('hello');
 

@@ -9,84 +9,96 @@ const webpackPwaManifest = require('webpack-pwa-manifest');
 const manifest = require('./src/manifest.json');
 const webpack = require('webpack');
 
+module.exports = function (env){
 
-module.exports = {
-	mode: 'development',
+	let baseUrl
+	if(env && env.dev){
+		baseUrl = 'localhost:3000'
+		console.log('DEV');
+	}else{
+		baseUrl = 'h-shams.github.io'
+		console.log('PROD');
+	}
 
-  entry: {
-    main: './src/main.js',
-		// data: './src/data.json'
-	},
+	return {
+		mode: 'development',
 
-  output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
+	  entry: {
+	    main: './src/main.js',
+			// data: './src/data.json'
+		},
 
-	devtool: 'inline-cheap-module-source-map',
+	  output: {
+	    filename: '[name].bundle.js',
+	    path: path.resolve(__dirname, 'dist'),
+	  },
 
-	devServer: {
-		contentBase: './dist',
-		compress: true,
-	},
+		devtool: 'inline-cheap-module-source-map',
 
-	plugins: [
-		new CleanWebpackPlugin(),
+		devServer: {
+			contentBase: './dist',
+			writeToDisk: true,
+			compress: true,
+		},
 
-		new MiniCssExtractPlugin({
-			filename: '[name].css',
-			chunkFilename: '[id].css',
-		}),
+		plugins: [
+			new CleanWebpackPlugin(),
 
-		new HtmlWebpackPlugin({
-			template: 'src/index.html',
-		}),
+			new MiniCssExtractPlugin({
+				filename: '[name].css',
+				chunkFilename: '[id].css',
+			}),
 
-		new webpackPwaManifest(manifest),
+			new HtmlWebpackPlugin({
+				template: 'src/index.html',
+			}),
 
-		new InjectManifest({
-			swSrc: './src/assets.json',
-			compileSrc: false,
-			swDest: 'assets.json',
-			exclude: ['sw.js']
-		}),
+			new webpackPwaManifest(manifest),
 
-		new CopyPlugin({
-      patterns: [
-        { from: './src/sw.js', to: './sw.js' },
-      ],
-    }),
+			new InjectManifest({
+				swSrc: './src/assets.json',
+				compileSrc: false,
+				swDest: 'assets.json',
+				exclude: ['sw.js']
+			}),
 
-		new webpack.DefinePlugin({
-			REPLACE: '"CUSTOME TEXT"'
-		})
+			new CopyPlugin({
+	      patterns: [
+	        { from: './src/sw.js', to: './sw.js' },
+	      ],
+	    }),
 
-	],
+			new webpack.DefinePlugin({
+				'env.baseUrl': JSON.stringify(baseUrl)
+			})
 
-	module: {
-		rules: [
-
-			// sass files
-			{
-				test: /\.css$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					{loader: 'css-loader',options: {sourceMap: true,importLoaders: 1}},
-					'postcss-loader',
-					{
-						loader: "group-css-media-queries-loader",
-						options: { sourceMap: true }
-					},
-				],
-			},
-
-			// html files
-			{
-				test: /\.html$/,
-				use: [
-					'html-loader'
-				],
-			},
 		],
-	},
+
+		module: {
+			rules: [
+
+				// sass files
+				{
+					test: /\.css$/,
+					use: [
+						MiniCssExtractPlugin.loader,
+						{loader: 'css-loader',options: {sourceMap: true,importLoaders: 1}},
+						'postcss-loader',
+						{
+							loader: "group-css-media-queries-loader",
+							options: { sourceMap: true }
+						},
+					],
+				},
+
+				// html files
+				{
+					test: /\.html$/,
+					use: [
+						'html-loader'
+					],
+				},
+			],
+		},
+	}
 }
