@@ -1,0 +1,15 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+    branches:
+      - master  # default branch
+
+jobs:
+  ci:
+    runs-on: ubuntu-18.04
+    steps:
+      - name Echo some text
+        run echo "some text in Terminal!"
