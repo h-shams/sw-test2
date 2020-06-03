@@ -1,5 +1,6 @@
 body{
   background-color: yellow;
+  position: absolute;
   color: #eee;
   display: grid;
 }
