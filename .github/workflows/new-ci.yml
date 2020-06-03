@@ -11,5 +11,5 @@ jobs:
   ci:
     runs-on: ubuntu-18.04
     steps:
-      - name Echo some text
-        run echo "some text in Terminal!"
+      - name: Echo some text
+        run: echo "some text in Terminal!"
