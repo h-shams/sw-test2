@@ -3,42 +3,50 @@
     {
       "src": "icons/icon_528x528.png",
       "sizes": "528x528",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon_432x432.png",
       "sizes": "432x432",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon_336x336.png",
       "sizes": "336x336",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon_240x240.png",
       "sizes": "240x240",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon_192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon_144x144.png",
       "sizes": "144x144",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon_96x96.png",
       "sizes": "96x96",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon_48x48.png",
       "sizes": "48x48",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "name": "My Progressive Web App",
