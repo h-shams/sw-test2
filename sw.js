@@ -8,5 +8,5 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   console.log('fetched resourse')
-  // event.respondWith(fetch(event.request.url)
+  event.respondWith(fetch(event.request.url))
 })
